@@ -1,16 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import ProductItem from '../layer/ProductItem'
+import React, { useEffect, useState } from "react";
+import ProductItem from "../layer/ProductItem";
+import { useDispatch, useSelector } from "react-redux";
+import { sajib } from "../CartRedux/CartSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const Arrivals = () => {
-
-  let [data, setData] = useState()
-  useEffect(()=>{
+  let navigate = useNavigate()
+  let dispatch = useDispatch()
+  let [data, setData] = useState();
+  useEffect(() => {
     fetch("https://dummyjson.com/products")
       .then((res) => res.json())
-      .then((el)=>{
+      .then((el) => {
         setData(el.products);
       });
-  },[])
+  }, []);
+
+  let handleClick = (item) => {
+  console.log(item);
+    dispatch(sajib({
+      ...item,
+      quantity:1
+    }))
+    localStorage.setItem("added-items", JSON.stringify({ ...item, quantity :1}));
+    navigate("/product/details");
+  };
+
+  // let items = useSelector((state) => state.allCart.pItem);
+  // console.log(items);
+
   return (
     <div className="pt-20">
       <div className="container">
@@ -20,23 +39,30 @@ const Arrivals = () => {
           </h2>
         </div>
         <div className="flex gap-x-[1.3%] gap-y-5 flex-wrap">
+          
           {data?.map(
             (item, index) =>
               index < 11 && (
-                <ProductItem
+                <div
+                  className="w-[24%] "
                   key={index}
-                  src={item.thumbnail}
-                  title={item.title}
-                  brand={item.brand}
-                  price={"$" + item.price}
-                  stock={item.stock}
-                />
+                  onClick={() => handleClick(item)}
+                >
+                  <ProductItem
+                    src={item.thumbnail}
+                    title={item.title}
+                    brand={item.brand}
+                    price={"$" + item.price}
+                    stock={"Stock: " + item.stock}
+                    
+                  />
+                </div>
               )
           )}
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default Arrivals
+export default Arrivals;

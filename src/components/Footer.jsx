@@ -12,28 +12,28 @@ const Footer = () => {
             </p>
             <ul className="flex space-x-4">
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="text-gray-600 hover:text-gray-800 transition duration-300"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="text-gray-600 hover:text-gray-800 transition duration-300"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="text-gray-600 hover:text-gray-800 transition duration-300"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

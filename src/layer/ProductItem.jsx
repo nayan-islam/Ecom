@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ProductItem = ({ src, alt, title, brand, price, stock }) => {
   return (
-    <div className="w-[24%] ">
+    <div>
       <div className="image border border-[#d4e4e3] w-full h-72  relative overflow-hidden flex justify-center items-center">
         <img
           className="w-full h-full object-contain hover:scale-110 transition-all duration-500"
@@ -19,7 +19,7 @@ const ProductItem = ({ src, alt, title, brand, price, stock }) => {
             <FaHeart />
           </Link>
           <p className="h-10 col-span-2 text-base bg-primery text-white hover:text-primery flex justify-center items-center hover:bg-white transition-all duration-300 border border-primery">
-            Stock: {stock}
+            {stock}
           </p>
         </div>
       </div>

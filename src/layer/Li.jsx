@@ -1,13 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Li = ({ href, liText, className }) => {
+const Li = ({ href, liText, className, child, LiClassName }) => {
   return (
-    <>
-      <li>
-        <Link className={className} to={href}>{liText}</Link>
-      </li>
-    </>
+    <li className={LiClassName}>
+      <Link className={className} to={href}>
+        {liText}
+      </Link>
+      {child}
+    </li>
   );
 };
 

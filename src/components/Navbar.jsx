@@ -77,13 +77,16 @@ const Navbar = () => {
                 liText="Home"
               />
               <Li
-                className="text-primery text-base font-semibold hover:text-hover transition-all duration-300 relative group"
+                className="text-primery text-base font-semibold hover:text-hover transition-all duration-300  "
                 href="/"
                 liText={
+                  <p className="flex items-center gap-x-2">
+                    Category <IoIosArrowDown />
+                  </p>
+                }
+                LiClassName="relative group"
+                child={
                   <>
-                    <p className="flex items-center gap-x-2">
-                      Category <IoIosArrowDown />
-                    </p>
                     <ul className="bg-[#d4e4e3] absolute left-0 top-full z-10 pt-6 pb-4 px-3 flex flex-col  gap-y-2 w-[200px] invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300">
                       <Li
                         className="text-primery text-base font-semibold hover:text-hover transition-all duration-300 border-b border-black/10 py-1 px-2 block !w-full"
@@ -129,7 +132,7 @@ const Navbar = () => {
               />
               <Li
                 className="text-primery text-base font-semibold hover:text-hover transition-all duration-300 relative"
-                href="/"
+                href="#"
                 liText={
                   <>
                     <input
@@ -141,7 +144,7 @@ const Navbar = () => {
                     <IoSearch className="absolute right-4 top-1/2 translate-y-[-50%]" />
 
                     <div className="w-full bg-orange-200 absolute right-0 top-[180%] z-10">
-                      {data
+                      {/* {data
                         .filter((el) => {
                           return search.toLowerCase() === ""
                             ? ""
@@ -152,7 +155,22 @@ const Navbar = () => {
                         .map((item, index) => (
                           <p key={index}>{item.title}</p>
                           // No results were found for your search
-                        ))}
+                        ))} */}
+                      {search.length > 0 ? (
+                        data.filter((item) =>
+                          item.title
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                        ).length > 0 ? (
+                          data.map((item3) => (
+                            <p key={item3.id}>{item3.title}</p>
+                          ))
+                        ) : (
+                          <p>No data found</p>
+                        )
+                      ) : (
+                        <p></p>
+                      )}
                     </div>
                   </>
                 }
