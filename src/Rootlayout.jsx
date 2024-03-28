@@ -7,7 +7,7 @@ const Rootlayout = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <Outlet className='py-24' />
       <Footer/>
     </>
   );

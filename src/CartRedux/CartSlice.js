@@ -14,10 +14,6 @@ export const counterSlice = createSlice({
       state.value = action.payload;
       console.log(action.payload.quantity);
     },
-    sajib: (state, action) => {
-      state.value = action.payload;
-      console.log(action.payload.quantity);
-    },
   },
 });
 

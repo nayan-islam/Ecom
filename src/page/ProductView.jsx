@@ -6,6 +6,10 @@ const ProductView = () => {
   let productData = useSelector((state) => state.allCart.value);
   let data=[]
   data.push(productData)
+
+
+
+  
  
   return (
     <div className="py-20">
@@ -87,7 +91,10 @@ const ProductView = () => {
                 <button className="py-2 px-4 bg-[#0a2623] text-gray-300 border border-[#0a2623] hover:bg-transparent hover:text-[#0a2623] transition-all duration-300">
                   Add to Wish List
                 </button>
-                <button  className="py-2 px-4 bg-[#0a2623] text-gray-300 border border-[#0a2623] hover:bg-transparent hover:text-[#0a2623] transition-all duration-300">
+                <button
+                 
+                  className="py-2 px-4 bg-[#0a2623] text-gray-300 border border-[#0a2623] hover:bg-transparent hover:text-[#0a2623] transition-all duration-300"
+                >
                   Add to Cart
                 </button>
               </li>

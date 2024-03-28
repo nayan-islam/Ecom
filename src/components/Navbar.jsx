@@ -1,15 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Li from "../layer/Li";
-import { FaShoppingCart, FaHeart, FaPhoneAlt } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaHeart,
+  FaPhoneAlt,
+  FaMinus,
+  FaPlus,
+} from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { MdEmail } from "react-icons/md";
 import { IoSearch } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { RxCross2 } from "react-icons/rx";
+
+import { useDispatch } from "react-redux";
+import { sajib } from "../CartRedux/CartSlice";
 
 const Navbar = () => {
   let [data, setData] = useState([]);
   let [search, setSearch] = useState("");
+  let [Quantity, setQuantity] = useState(1);
+  let [show, setShow] = useState(false);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+
+  let cart = useRef();
+  let cartInfo = useRef();
 
   useEffect(() => {
     fetch("https://dummyjson.com/products")
@@ -19,10 +36,24 @@ const Navbar = () => {
       });
   }, []);
 
+  useEffect(() => {
+    document.body.addEventListener("click", (e) => {
+      if (cart.current.contains(e.target)) {
+        setShow(!show);
+      } else {
+        setShow(false);
+      }
+
+      if (cartInfo.current.contains(e.target)) {
+        setShow(true);
+      }
+    });
+  }, [show]);
+
   return (
-    <>
-      <header className="bg-[#0a2623] py-1">
-        <div className="container flex justify-between items-center">
+    <div className="fixed w-full top-0 left-0 z-30">
+      <header className="bg-[#0a2623]   ">
+        <div className="container flex justify-between items-center py-1 relative ">
           <div className="headerLeft flex items-center gap-x-10">
             <Link
               to="mailto:info.havetic@gmail.com"
@@ -45,8 +76,9 @@ const Navbar = () => {
                 liText={<FaHeart />}
               />
               <Li
+                nayan={cart}
                 className="text-[#d4e4e3] text-base font-semibold hover:text-[#a0e0dc] transition-all duration-300"
-                href="/"
+                href="#"
                 liText={<FaShoppingCart />}
               />
               <Li
@@ -56,10 +88,154 @@ const Navbar = () => {
               />
             </ul>
           </div>
+
+          <div
+            ref={cartInfo}
+            className={`cart w-96 border border-gray-300  backdrop-blur-lg bg-white/30 absolute z-[-1] right-0 top-0  transition-all duration-500 ${
+              show ? "translate-y-0 top-full" : "translate-y-[-100%]"
+            }`}
+          >
+            <table className="w-full ">
+              <thead className="w-full">
+                <tr className="flex gap-x-3 p-2">
+                  <td className="border border-gray-300 p-0.5 w-12 h-12 ">
+                    <img
+                      className="w-full h-full object-contain"
+                      src=""
+                      alt=""
+                    />
+                  </td>
+                  <td className="flex items-start w-full">
+                    <table className="w-full">
+                      <thead className="w-full">
+                        <tr className="flex items-start justify-between">
+                          <td className=" p-1 flex items-start ">
+                            <table className="text-left">
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin text-xs text-gray-600">
+                                    Product Name
+                                  </td>
+                                </tr>
+                              </thead>
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin font-semibold text-sm text-gray-800">
+                                    iphone 8
+                                  </td>
+                                </tr>
+                              </thead>
+                            </table>
+                          </td>
+                          <td className=" p-1 flex items-center ">
+                            <table className="text-left">
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin text-xs text-gray-600">
+                                    Size
+                                  </td>
+                                </tr>
+                              </thead>
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin font-semibold text-sm text-gray-800">
+                                    XL
+                                  </td>
+                                </tr>
+                              </thead>
+                            </table>
+                          </td>
+                          <td className=" p-1 flex items-center ">
+                            <table className="text-left">
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin text-xs text-gray-600">
+                                    Stock
+                                  </td>
+                                </tr>
+                              </thead>
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin font-semibold text-sm text-green-800">
+                                    In Stock
+                                  </td>
+                                </tr>
+                              </thead>
+                            </table>
+                          </td>
+                          <td className=" p-1 flex items-center ">
+                            <table className="text-left">
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin text-xs text-gray-600">
+                                    Quantity
+                                  </td>
+                                </tr>
+                              </thead>
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin font-semibold text-sm flex items-center">
+                                    <span
+                                      className="cursor-pointer inline-block text-xs p-0.5 text-gray-300 border hover:text-[#0a2623] transition-all duration-300"
+                                      onClick={() =>
+                                        setQuantity((data) => {
+                                          if (data >= 2) {
+                                            return data - 1;
+                                          } else {
+                                            return 1;
+                                          }
+                                        })
+                                      }
+                                    >
+                                      <FaMinus />
+                                    </span>
+                                    <span className="inline-block px-1">
+                                      {Quantity}
+                                    </span>
+                                    <span
+                                      className="cursor-pointer inline-block text-xs p-0.5 text-gray-300 border hover:text-[#0a2623] transition-all duration-300"
+                                      onClick={() => setQuantity(Quantity + 1)}
+                                    >
+                                      <FaPlus />
+                                    </span>
+                                  </td>
+                                </tr>
+                              </thead>
+                            </table>
+                          </td>
+                          <td className=" p-1 flex items-center ">
+                            <table className="text-left">
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin text-xs text-gray-600">
+                                    Price
+                                  </td>
+                                </tr>
+                              </thead>
+                              <thead className="w-full">
+                                <tr>
+                                  <td className="font-Josefin font-semibold text-sm text-gray-800">
+                                    $1254
+                                  </td>
+                                </tr>
+                              </thead>
+                            </table>
+                          </td>
+                          <td className=" p-1 flex items-center ">
+                            <RxCross2 className="cursor-pointer" />
+                          </td>
+                        </tr>
+                      </thead>
+                    </table>
+                  </td>
+                </tr>
+              </thead>
+            </table>
+          </div>
         </div>
       </header>
       {/* -------------------------------------------------------------------------------------------------------------------------------- */}
-      <nav className="bg-[#d4e4e3] py-3">
+      <nav className="bg-[#d4e4e3] py-3 relative z-[-2]">
         <div className="container flex justify-between items-center">
           <div className="logo">
             <Link
@@ -138,40 +314,46 @@ const Navbar = () => {
                     <input
                       onChange={(element) => setSearch(element.target.value)}
                       type="text"
+                      value={search}
                       placeholder="Furniture...."
                       className="bg-transparent border border-primery/25 px-4 py-1 w-[350px] outline-none"
                     />
                     <IoSearch className="absolute right-4 top-1/2 translate-y-[-50%]" />
 
-                    <div className="w-full bg-orange-200 absolute right-0 top-[180%] z-10">
-                      {/* {data
-                        .filter((el) => {
-                          return search.toLowerCase() === ""
-                            ? ""
-                            : el.title
-                                .toLowerCase()
-                                .includes(search.toLowerCase());
-                        })
-                        .map((item, index) => (
-                          <p key={index}>{item.title}</p>
-                          // No results were found for your search
-                        ))} */}
-                      {search.length > 0 ? (
-                        data.filter((item) =>
-                          item.title
-                            .toLowerCase()
-                            .includes(search.toLowerCase())
-                        ).length > 0 ? (
-                          data.map((item3) => (
-                            <p key={item3.id}>{item3.title}</p>
-                          ))
+                    {search && (
+                      <div className="w-full border border-gray-300  backdrop-blur-2xl bg-white/50 py-3 px-5 absolute right-0 top-[180%] z-10">
+                        {search.length > 0 ? (
+                          data.filter((item) =>
+                            search.toLowerCase() === ""
+                              ? ""
+                              : item.title
+                                  .toLowerCase()
+                                  .includes(search.toLowerCase())
+                          ).length > 0 ? (
+                            data
+                              .filter((item) =>
+                                search.toLowerCase() === ""
+                                  ? ""
+                                  : item.title
+                                      .toLowerCase()
+                                      .includes(search.toLowerCase())
+                              )
+                              .map((item) => (
+                                <p
+                                  onClick={() => handleClick(item)}
+                                  key={item.id}
+                                >
+                                  {item.title}
+                                </p>
+                              ))
+                          ) : (
+                            <p>No data found</p>
+                          )
                         ) : (
-                          <p>No data found</p>
-                        )
-                      ) : (
-                        <p></p>
-                      )}
-                    </div>
+                          <p></p>
+                        )}
+                      </div>
+                    )}
                   </>
                 }
               />
@@ -179,7 +361,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-    </>
+    </div>
   );
 };
 

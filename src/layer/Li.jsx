@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Li = ({ href, liText, className, child, LiClassName }) => {
+const Li = ({ href, liText, className, child, LiClassName, click, nayan }) => {
   return (
-    <li className={LiClassName}>
+    <li ref={nayan} onClick={click} className={LiClassName}>
       <Link className={className} to={href}>
         {liText}
       </Link>

@@ -1,8 +1,8 @@
 import React from "react";
-import { FaShoppingCart, FaHeart, FaPhoneAlt } from "react-icons/fa";
+import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const ProductItem = ({ src, alt, title, brand, price, stock }) => {
+const ProductItem = ({ src, alt, title, brand, price, stock, jekono, info }) => {
   return (
     <div>
       <div className="image border border-[#d4e4e3] w-full h-72  relative overflow-hidden flex justify-center items-center">
@@ -24,7 +24,10 @@ const ProductItem = ({ src, alt, title, brand, price, stock }) => {
         </div>
       </div>
       <div className="text py-3 px-4 bg-[#d4e4e3]">
-        <h3 className="text-primery text-xl font-semibold hover:text-hover transition-all duration-300">
+        <h3
+          onClick={() => jekono(info)}
+          className="text-primery cursor-pointer text-xl font-semibold hover:text-hover transition-all duration-300"
+        >
           {title}
         </h3>
         <p className="mt-1 flex items-center justify-between text-[#4d4d4d] text-lg font-normal">

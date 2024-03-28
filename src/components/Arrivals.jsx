@@ -18,7 +18,6 @@ const Arrivals = () => {
   }, []);
 
   let handleClick = (item) => {
-  console.log(item);
     dispatch(sajib({
       ...item,
       quantity:1
@@ -27,8 +26,6 @@ const Arrivals = () => {
     navigate("/product/details");
   };
 
-  // let items = useSelector((state) => state.allCart.pItem);
-  // console.log(items);
 
   return (
     <div className="pt-20">
@@ -39,22 +36,21 @@ const Arrivals = () => {
           </h2>
         </div>
         <div className="flex gap-x-[1.3%] gap-y-5 flex-wrap">
-          
           {data?.map(
             (item, index) =>
               index < 11 && (
                 <div
                   className="w-[24%] "
                   key={index}
-                  onClick={() => handleClick(item)}
                 >
                   <ProductItem
+                    jekono={handleClick}
+                    info={item}
                     src={item.thumbnail}
                     title={item.title}
                     brand={item.brand}
                     price={"$" + item.price}
                     stock={"Stock: " + item.stock}
-                    
                   />
                 </div>
               )
